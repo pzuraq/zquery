@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html ng-app="zquery">
+<head>
+  <title>Zquery</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/ng-table.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body ng-controller="ZqueryController">
+  <div class="sidebar">
+    <h1 class="logo">Zquery</h1>
+    <form id="search" ng-submit="submit()">
+
+      <h5>City/County</h5>
+
+      <input type="text" id="city" name="city" ng-model="searchParams.city" ng-disabled="disableCityState" class="form-control"/>
+
+      <h5>State</h5>
+
+      <select id="state" name="state" ng-model="searchParams.state" ng-disabled="disableCityState" class="form-control"> 
+        <option value="" selected="selected">Select...</option> 
+        <option value="AL">Alabama</option> 
+        <option value="AK">Alaska</option> 
+        <option value="AZ">Arizona</option> 
+        <option value="AR">Arkansas</option> 
+        <option value="CA">California</option> 
+        <option value="CO">Colorado</option> 
+        <option value="CT">Connecticut</option> 
+        <option value="DE">Delaware</option> 
+        <option value="DC">District Of Columbia</option> 
+        <option value="FL">Florida</option> 
+        <option value="GA">Georgia</option> 
+        <option value="HI">Hawaii</option> 
+        <option value="ID">Idaho</option> 
+        <option value="IL">Illinois</option> 
+        <option value="IN">Indiana</option> 
+        <option value="IA">Iowa</option> 
+        <option value="KS">Kansas</option> 
+        <option value="KY">Kentucky</option> 
+        <option value="LA">Louisiana</option> 
+        <option value="ME">Maine</option> 
+        <option value="MD">Maryland</option> 
+        <option value="MA">Massachusetts</option> 
+        <option value="MI">Michigan</option> 
+        <option value="MN">Minnesota</option> 
+        <option value="MS">Mississippi</option> 
+        <option value="MO">Missouri</option> 
+        <option value="MT">Montana</option> 
+        <option value="NE">Nebraska</option> 
+        <option value="NV">Nevada</option> 
+        <option value="NH">New Hampshire</option> 
+        <option value="NJ">New Jersey</option> 
+        <option value="NM">New Mexico</option> 
+        <option value="NY">New York</option> 
+        <option value="NC">North Carolina</option> 
+        <option value="ND">North Dakota</option> 
+        <option value="OH">Ohio</option> 
+        <option value="OK">Oklahoma</option> 
+        <option value="OR">Oregon</option> 
+        <option value="PA">Pennsylvania</option> 
+        <option value="RI">Rhode Island</option> 
+        <option value="SC">South Carolina</option> 
+        <option value="SD">South Dakota</option> 
+        <option value="TN">Tennessee</option> 
+        <option value="TX">Texas</option> 
+        <option value="UT">Utah</option> 
+        <option value="VT">Vermont</option> 
+        <option value="VA">Virginia</option> 
+        <option value="WA">Washington</option> 
+        <option value="WV">West Virginia</option> 
+        <option value="WI">Wisconsin</option> 
+        <option value="WY">Wyoming</option>
+      </select>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="collate" value="house" ng-model="searchParams.collate"/> Collate
+        </label>
+      </div>
+
+      <h5>Zipcode</h5>
+
+      <input type="text" id="zip" name="zip" ng-model="searchParams.zip" ng-disabled="disableZip" class="form-control"/>
+
+      <h5>Price</h5>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" name="minprice" ng-model="searchParams.minPrice" class="form-control"/>
+        </div> 
+        <div class="col-xs-6">
+          <input type="text" name="maxprice" ng-model="searchParams.maxPrice" class="form-control"/>
+        </div>
+        <div class="to-sign">to</div>
+      </div>
+
+      <h5>Beds</h5>
+
+      <select name="beds" ng-model="searchParams.beds" class="form-control">
+        <option value="">0+</option>
+        <option value="1-_beds">1+</option>
+        <option value="2-_beds">2+</option>
+        <option value="3-_beds">3+</option>
+        <option value="4-_beds">4+</option>
+        <option value="5-_beds">5+</option>
+        <option value="6-_beds">6+</option>
+      </select>
+
+      <h5>Home Type</h5>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="hometype" value="house" ng-checklist="searchParams.homeType"/> Houses
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="hometype" value="apartment,duplex" ng-checklist="searchParams.homeType"/> Apartments
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="hometype" value="condo" ng-checklist="searchParams.homeType"/> Condos/co-ops
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="hometype" value="townhouse_type" ng-checklist="searchParams.homeType"/> Townhomes
+        </label>
+      </div>
+
+      <h5>Baths</h5>
+
+      <select name="baths" ng-model="searchParams.baths" class="form-control">
+        <option value="">0+</option>
+        <option value="1-_baths">1+</option>
+        <option value="1-_baths">1.5+</option>
+        <option value="2-_baths">2+</option>
+        <option value="3-_baths">3+</option>
+        <option value="4-_baths">4+</option>
+        <option value="5-_baths">5+</option>
+        <option value="6-_baths">6+</option>
+      </select>
+
+      <h5>Square Feet</h5>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" name="minsqft" ng-model="searchParams.minSqFt" class="form-control" />
+        </div> 
+        <div class="col-xs-6">
+          <input type="text" name="maxsqft" ng-model="searchParams.maxSqFt" class="form-control" />
+        </div>
+        <div class="to-sign">to</div>
+      </div>
+
+      <h5>Lot Size (Sqft)</h5>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" name="minlotsize" ng-model="searchParams.minLotSize" class="form-control" />
+        </div> 
+        <div class="col-xs-6">
+          <input type="text" name="maxlotsize" ng-model="searchParams.maxLotSize" class="form-control" />
+        </div>
+        <div class="to-sign">to</div>
+      </div>
+
+      <h5>Year Built</h5>
+
+      <div class="row">
+        <div class="col-xs-6">
+          <input type="text" name="minyear" ng-model="searchParams.minYear" class="form-control" />
+        </div> 
+        <div class="col-xs-6">
+          <input type="text" name="maxyear" ng-model="searchParams.maxYear" class="form-control" />
+        </div>
+        <div class="to-sign">to</div>
+      </div>
+
+      <h5>Days on Zillow</h5>
+
+      <select name="days" ng-model="searchParams.daysOnZillow" class="form-control">
+        <option value="">Any</option>
+        <option value="1_days">1 day</option>
+        <option value="7_days">7 days</option>
+        <option value="14_days">14 days</option>
+        <option value="30_days">30 days</option>
+        <option value="90_days">90 days</option>
+        <option value="6m_days">6 months</option>
+        <option value="12m_days">12 months</option>
+        <option value="24m_days">24 months</option>
+        <option value="36m_days">36 months</option>
+      </select>
+
+      <h5>Keywords</h5>
+
+      <input type="text" name="keywords" ng-model="searchParams.keywords" class="form-control" />
+
+      <h5>Show Only</h5>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="showonly" value="1_pets" ng-checklist="searchParams.showOnly"/> Pets Allowed
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="showonly" value="1_parking" ng-checklist="searchParams.showOnly"/> On-Site Parking
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="showonly" value="1_laundry" ng-checklist="searchParams.showOnly"/> In-Unit Laundry
+        </label>
+      </div>
+    
+      <button class="search-btn btn-lg btn btn-default"><span class="glyphicon glyphicon-search"></span> Query</button>
+    </form>
+  </div>
+
+  <div id="results-container" class="content">
+    <progressbar value="( queryComplete * 100 ) / queryTotal" max="100" ng-show="showProgress" class="slide">
+      <span style="white-space:nowrap;">{{queryComplete}} / {{queryTotal}} ({{searchResults.length}} Results)</span>
+    </progressbar>
+    
+    <table ng-table="tableParams" template-pagination="custom/pager" class="table">
+      <thead>
+        <tr>
+          <th class="text-center sortable" ng-class="{
+              'sort-asc': tableParams.isSortBy('listPrice', 'asc'),
+              'sort-desc': tableParams.isSortBy('listPrice', 'desc')
+            }"
+              ng-click="tableParams.sorting({'listPrice' : tableParams.isSortBy('listPrice', 'asc') ? 'desc' : 'asc'})">
+              <div>List Price</div>
+          </th>
+          <th class="text-center sortable" ng-class="{
+              'sort-asc': tableParams.isSortBy('zestimate', 'asc'),
+              'sort-desc': tableParams.isSortBy('zestimate', 'desc')
+            }"
+              ng-click="tableParams.sorting({'zestimate' : tableParams.isSortBy('zestimate', 'asc') ? 'desc' : 'asc'})">
+              <div>Zestimate</div>
+          </th>
+          <th class="text-center sortable" ng-class="{
+              'sort-asc': tableParams.isSortBy('ratio', 'asc'),
+              'sort-desc': tableParams.isSortBy('ratio', 'desc')
+            }"
+              ng-click="tableParams.sorting({'ratio' : tableParams.isSortBy('ratio', 'asc') ? 'desc' : 'asc'})">
+              <div>Ratio</div>
+          </th>
+          <th class="text-center sortable" ng-class="{
+              'sort-asc': tableParams.isSortBy('address', 'asc'),
+              'sort-desc': tableParams.isSortBy('address', 'desc')
+            }"
+              ng-click="tableParams.sorting({'address' : tableParams.isSortBy('address', 'asc') ? 'desc' : 'asc'})">
+              <div>Address</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td data-title="'List Price'" sortable="'listPrice'" class="text-right">
+            <span ng-if="item.listPrice>0">{{item.listPrice | currency}}</span>
+            <span ng-if="item.listPrice<0">N/A</span>
+          </td>
+          <td data-title="'Zestimate'" sortable="'zestimate'" class="text-right">
+            <span ng-if="item.zestimate>0">{{item.zestimate | currency}}</span>
+            <span ng-if="item.zestimate<0">N/A</span>
+          </td>
+          <td data-title="'Ratio'" sortable="'ratio'" class="text-right">
+            <span ng-if="item.ratio>0">{{item.ratio | number:2}}</span>
+            <span ng-if="item.ratio<0">N/A</span>
+          </td>
+          <td data-title="'Address'" sortable="'addresss'">
+            {{item.address}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script> 
+  <script type="text/javascript" src="js/angular.min.js"></script> 
+  <script type="text/javascript" src="js/angular-animate.min.js"></script> 
+  <script type="text/javascript" src="js/ui-bootstrap-0.11.0.min.js"></script> 
+  <script type="text/javascript" src="js/ng-checklist.js"></script> 
+  <script type="text/javascript" src="js/ng-table.js"></script> 
+  <script type="text/javascript" src="js/app.js"></script> 
+  <script type="text/ng-template" id="custom/pager">
+      <div class="ng-cloak ng-table-pager">
+        <div ng-if="params.settings().counts.length" class="ng-table-counts btn-group pull-right">
+          <button ng-repeat="count in params.settings().counts" type="button"
+                  ng-class="{'active':params.count() == count}"
+                  ng-click="params.count(count)" class="btn btn-default">
+            <span ng-bind="count"></span>
+          </button>
+        </div>
+
+        <ul class="pagination ng-table-pagination pull-left">
+          <li ng-class="{'disabled': !page.active}" ng-repeat="page in pages" ng-switch="page.type">
+            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;</a>
+            <a ng-switch-when="first" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+            <a ng-switch-when="page" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+            <a ng-switch-when="more" ng-click="params.page(page.number)" href="">&#8230;</a>
+            <a ng-switch-when="last" ng-click="params.page(page.number)" href=""><span ng-bind="page.number"></span></a>
+            <a ng-switch-when="next" ng-click="params.page(page.number)" href="">&raquo;</a>
+          </li>
+        </ul>
+
+        <span class="label label-primary label-total pull-left">{{params.total()}} Results</span>
+      </div>
+    </script>
+</body>
+</html>
